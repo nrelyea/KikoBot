@@ -1,24 +1,65 @@
+import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Point;
+import java.awt.Robot;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
 
 public class Kiko {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AWTException, InterruptedException{
 		
 		int WIDTH = 4;
 		int HEIGHT = 4;
 		
-		int[][] cardMatrix = fillCards(WIDTH,HEIGHT);
-		printMatrix(cardMatrix);
-		System.out.println("");
+		//int[][] cardMatrix = fillCards(WIDTH,HEIGHT);
+		//printMatrix(cardMatrix);
+		//System.out.println("");
 		
-		play(cardMatrix, WIDTH, HEIGHT);
+		//play(cardMatrix, WIDTH, HEIGHT);
+		
+		Point CENTER = new Point(690,500); //CENTER OF SCREEN IF CHROME ZOOM IS 175% AND TOP OF GAME WINDOW TOUCHING BOOKMARKS BAR
+		int SIZE = 820; // size of play area
 		
 		
+		Point[][] coordMatrix = generateCoordMatrix(CENTER, SIZE, 5, 5);
+		
+		
+		
+		
+		System.out.println("COMPLETE");
 	}
 	
+	static Point[][] generateCoordMatrix(Point center, int boardSize, int rows, int columns) throws AWTException, InterruptedException {
+
+		Point[][] coords = new Point[columns][rows];
+		int cardSize = boardSize / columns;
+		Point firstCardPos = new Point(center.x - (boardSize / 2) + (cardSize / 2), center.y - ((cardSize * rows) / 2) + (cardSize / 2));
+		
+		
+		for(int i = 0; i < columns; i++) {
+			for(int j = 0; j < rows; j++) {
+				coords[i][j] = new Point(firstCardPos.x + (i * cardSize),firstCardPos.y + (j * cardSize));
+				
+				Robot rob = new Robot();
+				rob.mouseMove(coords[i][j].x, coords[i][j].y);
+				Thread.sleep(500);
+				
+			}
+		}
+		
+		
+		
+		
+		//Robot rob = new Robot();
+		//rob.mouseMove(firstCardPos.x, firstCardPos.y);
+		
+		
+		
+		return null;
+	}
+
 	static void play(int[][] cardMatrix, int w, int h) {
 		Hashtable<Integer, Point> matchTable = new Hashtable<Integer, Point>();
 		
