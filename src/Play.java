@@ -18,30 +18,39 @@ public class Play implements Runnable
     { 
         try
         { 
-
-    		
+		
     		Point CENTER = new Point(690,510); //CENTER OF SCREEN IF CHROME ZOOM IS 175% AND TOP OF GAME WINDOW TOUCHING BOOKMARKS BAR
     		int BOARDSIZE = 820; // size of play area
     		
     		
+    		
 			Robot rob = new Robot();
 			click(rob,CENTER);
+			Thread.sleep(300);
+			
+
     		
 			
-    		int WIDTH = 4;
+    		int WIDTH = 3;
     		int HEIGHT = 3;
 			
     		Point[][] coordMatrix = generateCoordMatrix(CENTER, BOARDSIZE, HEIGHT, WIDTH); 
     		
     		
     		play(rob, coordMatrix, HEIGHT, WIDTH, BOARDSIZE / WIDTH);
+    		
+    		
+			// re-focus on console
+			rob.mouseMove(-1000, 925);
+			rob.mousePress(InputEvent.BUTTON1_MASK);
+			rob.mouseRelease(InputEvent.BUTTON1_MASK);
             
   
         } 
         catch (Exception e) { System.out.println ("Play terminated"); } 
     } 
     
-    void play(Robot rob, Point[][] coords, int w, int h, int cardSize) throws InterruptedException {
+    void play(Robot rob, Point[][] coords, int h, int w, int cardSize) throws InterruptedException {
     	
 		Hashtable<String, Point> matchTable = new Hashtable<String, Point>();
 		
@@ -50,51 +59,56 @@ public class Play implements Runnable
 		int clickNum = 1;
 		String lastCard = "";
 		
-		for(int i = 0; i < h; i++) {
-			for(int j = 0; j < w; j++) {
+		for(int i = 0; i < w; i++) {
+			for(int j = 0; j < h; j++) {
 				
-				System.out.println("Click " + clickNum + ": (" + i + "," + j + ")");
-				click(rob, coords[i][j]);
-				Thread.sleep(275);
-				String cardRead = readCard(rob, coords[i][j].x, coords[i][j].y, cardSize);
-				System.out.println("Card color: " + cardRead);
-				
-				Point rtnPoint = matchTable.put(cardRead,new Point(coords[i][j].x,coords[i][j].y));
-				clickCount++;
-				if(rtnPoint != null) {					
-					if(clickNum == 1) {
-						System.out.println("Click 2: at (" + rtnPoint.x + "," + rtnPoint.y + ") to match (" + i + "," + j + ")");
-						Thread.sleep(200);
-						click(rob, rtnPoint);
-						clickCount++;
-					}
-					else {
-						if(cardRead.equals(lastCard)) {
-							System.out.println("instant match!");
-						}
-						else {
-							System.out.println("Click 1: at (" + rtnPoint.x + "," + rtnPoint.y + ") to match:");
-							Thread.sleep(200);
-							click(rob, rtnPoint);
-							System.out.println("Click 2: at (" + i + "," + j + ")");
-							Thread.sleep(200);
-							click(rob, coords[i][j]);
-							clickCount += 2;							
-						}	
-						clickNum = 1;
-					}
-					Thread.sleep(300);
+				if(h == w && i == j && (h%2) == 1 && (w%2) == 1 && j == w / 2) {
+					System.out.println("Skipping point (" + i + "," + j + ")");
 				}
 				else {
-					if(clickNum == 1) {
-						clickNum = 2;
+					System.out.println("Click " + clickNum + ": (" + i + "," + j + ")");
+					click(rob, coords[i][j]);
+					Thread.sleep(275);
+					String cardRead = readCard(rob, coords[i][j].x, coords[i][j].y, cardSize);
+					System.out.println("Card color: " + cardRead);
+					
+					Point rtnPoint = matchTable.put(cardRead,new Point(coords[i][j].x,coords[i][j].y));
+					clickCount++;
+					if(rtnPoint != null) {					
+						if(clickNum == 1) {
+							System.out.println("Click 2: at (" + rtnPoint.x + "," + rtnPoint.y + ") to match (" + i + "," + j + ")");
+							Thread.sleep(200);
+							click(rob, rtnPoint);
+							clickCount++;
+						}
+						else {
+							if(cardRead.equals(lastCard)) {
+								System.out.println("instant match!");
+							}
+							else {
+								System.out.println("Click 1: at (" + rtnPoint.x + "," + rtnPoint.y + ") to match:");
+								Thread.sleep(200);
+								click(rob, rtnPoint);
+								System.out.println("Click 2: at (" + i + "," + j + ")");
+								Thread.sleep(200);
+								click(rob, coords[i][j]);
+								clickCount += 2;							
+							}	
+							clickNum = 1;
+						}
+						Thread.sleep(300);
 					}
 					else {
-						clickNum = 1;
+						if(clickNum == 1) {
+							clickNum = 2;
+						}
+						else {
+							clickNum = 1;
+						}
 					}
-				}
-				lastCard = cardRead;
-				Thread.sleep(300);
+					lastCard = cardRead;
+					Thread.sleep(300);
+				}						
 			}
 		}
 		
@@ -122,7 +136,6 @@ public class Play implements Runnable
     	r.mouseMove(pt.x, pt.y);
 		r.mousePress(InputEvent.BUTTON1_MASK);
 		r.mouseRelease(InputEvent.BUTTON1_MASK);
-
     }
     
     static Point[][] generateCoordMatrix(Point center, int boardSize, int rows, int columns) throws AWTException, InterruptedException {
