@@ -5,10 +5,23 @@ import java.awt.Robot;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Kiko {
 
 	public static void main(String[] args) throws AWTException, InterruptedException{
+		
+		Scanner scan = new Scanner(System.in);  // Create a Scanner object
+
+		System.out.println("HIT ENTER TO BEGIN");
+		Scanner scanner = new Scanner(System.in);
+	    String readString = scanner.nextLine();
+	    if (readString.isEmpty()) {
+            System.out.println("PRESS ENTER AGAIN TO STOP");
+        }
+		
+		
+		
 		
 		int WIDTH = 4;
 		int HEIGHT = 4;
@@ -22,8 +35,12 @@ public class Kiko {
 		Point CENTER = new Point(690,500); //CENTER OF SCREEN IF CHROME ZOOM IS 175% AND TOP OF GAME WINDOW TOUCHING BOOKMARKS BAR
 		int SIZE = 820; // size of play area
 		
+		Thread object = new Thread(new KillSwitch()); 
+        object.start();
+        Thread.sleep(2000);
+        object.interrupt();
 		
-		Point[][] coordMatrix = generateCoordMatrix(CENTER, SIZE, 5, 5);
+		Point[][] coordMatrix = generateCoordMatrix(CENTER, SIZE, 4, 4);
 		
 		
 		
