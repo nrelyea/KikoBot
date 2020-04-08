@@ -15,16 +15,9 @@ public class Kiko {
 
 		System.out.println("HIT ENTER TO BEGIN");
 		Scanner scanner = new Scanner(System.in);
-	    String readString = scanner.nextLine();
-	    if (readString.isEmpty()) {
-            System.out.println("PRESS ENTER AGAIN TO STOP");
-        }
+	    String str = scanner.nextLine();
+	    System.out.println("PRESS ENTER AGAIN TO STOP");
 		
-		
-		
-		
-		int WIDTH = 4;
-		int HEIGHT = 4;
 		
 		//int[][] cardMatrix = fillCards(WIDTH,HEIGHT);
 		//printMatrix(cardMatrix);
@@ -32,15 +25,13 @@ public class Kiko {
 		
 		//play(cardMatrix, WIDTH, HEIGHT);
 		
-		Point CENTER = new Point(690,500); //CENTER OF SCREEN IF CHROME ZOOM IS 175% AND TOP OF GAME WINDOW TOUCHING BOOKMARKS BAR
-		int SIZE = 820; // size of play area
+
 		
-		Thread object = new Thread(new KillSwitch()); 
-        object.start();
-        Thread.sleep(2000);
-        object.interrupt();
+		Thread player = new Thread(new Play()); 
+		player.start();
 		
-		Point[][] coordMatrix = generateCoordMatrix(CENTER, SIZE, 4, 4);
+        str = scanner.nextLine();
+        player.interrupt();			// kill game when enter key pressed
 		
 		
 		
@@ -48,34 +39,7 @@ public class Kiko {
 		System.out.println("COMPLETE");
 	}
 	
-	static Point[][] generateCoordMatrix(Point center, int boardSize, int rows, int columns) throws AWTException, InterruptedException {
-
-		Point[][] coords = new Point[columns][rows];
-		int cardSize = boardSize / columns;
-		Point firstCardPos = new Point(center.x - (boardSize / 2) + (cardSize / 2), center.y - ((cardSize * rows) / 2) + (cardSize / 2));
-		
-		
-		for(int i = 0; i < columns; i++) {
-			for(int j = 0; j < rows; j++) {
-				coords[i][j] = new Point(firstCardPos.x + (i * cardSize),firstCardPos.y + (j * cardSize));
-				
-				Robot rob = new Robot();
-				rob.mouseMove(coords[i][j].x, coords[i][j].y);
-				Thread.sleep(500);
-				
-			}
-		}
-		
-		
-		
-		
-		//Robot rob = new Robot();
-		//rob.mouseMove(firstCardPos.x, firstCardPos.y);
-		
-		
-		
-		return null;
-	}
+	
 
 	static void play(int[][] cardMatrix, int w, int h) {
 		Hashtable<Integer, Point> matchTable = new Hashtable<Integer, Point>();
