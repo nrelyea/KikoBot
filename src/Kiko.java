@@ -13,10 +13,10 @@ public class Kiko {
 		
 		Scanner scan = new Scanner(System.in);  // Create a Scanner object
 
-		System.out.println("HIT ENTER TO BEGIN");
+		//System.out.println("HIT ENTER TO BEGIN");
 		Scanner scanner = new Scanner(System.in);
-	    String str = scanner.nextLine();
-	    System.out.println("PRESS ENTER AGAIN TO STOP");
+	    //String str = scanner.nextLine();
+	    System.out.println("PRESS ENTER TO STOP");
 		
 		
 		//int[][] cardMatrix = fillCards(WIDTH,HEIGHT);
@@ -30,7 +30,7 @@ public class Kiko {
 		Thread player = new Thread(new Play()); 
 		player.start();
 		
-        str = scanner.nextLine();
+        String str = scanner.nextLine();
         player.interrupt();			// kill game when enter key pressed
 		
 		

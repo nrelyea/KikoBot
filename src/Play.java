@@ -25,25 +25,56 @@ public class Play implements Runnable
     		
     		
 			Robot rob = new Robot();
-			click(rob,CENTER);
-			Thread.sleep(300);
 			
+			
+			Point[] levelDimensions = new Point[10];
+			levelDimensions[1] = new Point(2,2);
+			levelDimensions[2] = new Point(3,2);
+			levelDimensions[3] = new Point(3,3);
+			levelDimensions[4] = new Point(4,3);
+			levelDimensions[5] = new Point(4,4);
+			levelDimensions[6] = new Point(5,4);
+			levelDimensions[7] = new Point(5,5);
+			levelDimensions[8] = new Point(6,5);
+			levelDimensions[9] = new Point(6,46);
 
-    		
+
+
+    		for(int round = 1; round < 7; round++) {
+    			
+    			System.out.println("Round " + round + " starting in 5 seconds: ");
+    			Thread.sleep(5000);   			
+    			
+    			int WIDTH = levelDimensions[round].x;
+        		int HEIGHT = levelDimensions[round].y;
+    			
+        		Point[][] coordMatrix = generateCoordMatrix(CENTER, BOARDSIZE, HEIGHT, WIDTH); 
+        		
+        		//rob.mouseMove(CENTER.x - BOARDSIZE / 2 + 10, CENTER.y - BOARDSIZE / 2 + 10);
+        		click(rob,new Point(CENTER.x - BOARDSIZE / 2 - 20, CENTER.y - BOARDSIZE / 2 + 10));
+        		click(rob,new Point(CENTER.x - BOARDSIZE / 2 - 20, CENTER.y - BOARDSIZE / 2 + 10));
+        		click(rob,new Point(CENTER.x - BOARDSIZE / 2 - 20, CENTER.y - BOARDSIZE / 2 + 10));
+
+
+        		System.out.println("game started");
+    			Thread.sleep(500);
+        		
+        		play(rob, coordMatrix, HEIGHT, WIDTH, BOARDSIZE / WIDTH);
+        		
+        		// click through round finish screen
+    			Thread.sleep(500);
+        		click(rob,CENTER);
+        		
+        		
+    			// re-focus on console
+    			rob.mouseMove(-1000, 925);
+    			rob.mousePress(InputEvent.BUTTON1_MASK);
+    			rob.mouseRelease(InputEvent.BUTTON1_MASK);
+    			
+    			
+    		}
 			
-    		int WIDTH = 3;
-    		int HEIGHT = 3;
-			
-    		Point[][] coordMatrix = generateCoordMatrix(CENTER, BOARDSIZE, HEIGHT, WIDTH); 
     		
-    		
-    		play(rob, coordMatrix, HEIGHT, WIDTH, BOARDSIZE / WIDTH);
-    		
-    		
-			// re-focus on console
-			rob.mouseMove(-1000, 925);
-			rob.mousePress(InputEvent.BUTTON1_MASK);
-			rob.mouseRelease(InputEvent.BUTTON1_MASK);
             
   
         } 
@@ -121,12 +152,12 @@ public class Play implements Runnable
     	//Rectangle captureRect = new Rectangle(x - cardSize / 2, y - cardSize / 2, cardSize, cardSize);
     	Rectangle captureRect = new Rectangle(x - 10, y - cardSize / 4 - 10, 20, 20);
     	BufferedImage capture = rob.createScreenCapture(captureRect);
-    	try {
-			ImageIO.write(capture, "png", new File("pic.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	try {
+//			ImageIO.write(capture, "png", new File(x + "-" + y + "-pic.png"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     	return (new Color(capture.getRGB(10, 10))).toString();
     	
     	
