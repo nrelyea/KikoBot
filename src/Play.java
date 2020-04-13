@@ -36,7 +36,7 @@ public class Play implements Runnable
 			levelDimensions[6] = new Point(5,4);
 			levelDimensions[7] = new Point(5,5);
 			levelDimensions[8] = new Point(6,5);
-			levelDimensions[9] = new Point(6,46);
+			levelDimensions[9] = new Point(6,6);
 
 
 
@@ -85,6 +85,8 @@ public class Play implements Runnable
     	
 		Hashtable<String, Point> matchTable = new Hashtable<String, Point>();
 		
+		CardReading read = new CardReading();
+		
 		int clickCount = 0;
 		
 		int clickNum = 1;
@@ -100,7 +102,8 @@ public class Play implements Runnable
 					System.out.println("Click " + clickNum + ": (" + i + "," + j + ")");
 					click(rob, coords[i][j]);
 					Thread.sleep(275);
-					String cardRead = readCard(rob, coords[i][j].x, coords[i][j].y, cardSize);
+					//String cardRead = readCard(rob, coords[i][j].x, coords[i][j].y, cardSize);
+					String cardRead = read.profile(rob, coords[i][j].x, coords[i][j].y, cardSize);
 					System.out.println("Card color: " + cardRead);
 					
 					Point rtnPoint = matchTable.put(cardRead,new Point(coords[i][j].x,coords[i][j].y));
