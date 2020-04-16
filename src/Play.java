@@ -40,10 +40,10 @@ public class Play implements Runnable
 
 
 
-    		for(int round = 1; round < 3; round++) {
+    		for(int round = 1; round < 5; round++) {
     			
     			System.out.println("Round " + round + " starting in 5 seconds: ");
-    			Thread.sleep(5000);   			
+    			Thread.sleep(5000);
     			
     			int WIDTH = levelDimensions[round].x;
         		int HEIGHT = levelDimensions[round].y;

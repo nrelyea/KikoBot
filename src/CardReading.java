@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -24,7 +25,13 @@ public class CardReading {
 			//BufferedImage yellowIMG = ImageIO.read(new File("strawberry.jpg"));
 			referenceTable.put("yellow", ImageIO.read(new File("yellow.png")));
 			referenceTable.put("darkblue", ImageIO.read(new File("darkblue.png")));
-			
+			referenceTable.put("lightblue", ImageIO.read(new File("lightblue.png")));
+			referenceTable.put("red", ImageIO.read(new File("red.png")));
+			referenceTable.put("green", ImageIO.read(new File("green.png")));
+			referenceTable.put("blue", ImageIO.read(new File("blue.png")));
+
+
+
 
 			
 		} catch (IOException e) {
@@ -40,37 +47,41 @@ public class CardReading {
 		Rectangle captureRect = new Rectangle(x, y - cardSize / 4, captureWIDTH, captureHEIGHT);
     	BufferedImage capture = rob.createScreenCapture(captureRect);
     	
-    	//imagesMatch(capture,referenceTable.get("yellow"));
     	
-//    	try {
-//			ImageIO.write(capture, "png", new File(x + "-" + y + "-pic.png"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
     	
-    	if(imagesMatch(capture,referenceTable.get("yellow"))) {
-    		return("yellow");
+    	String cardType = "";
+    	// for each image in the reference table, compare the capture with it, and return it's key (the color) if it matches
+    	Set<String> keys = referenceTable.keySet();
+    	for(String colorKey: keys){
+        	if(imagesMatch(capture,referenceTable.get(colorKey))) {
+        		cardType = colorKey;
+        		break;
+        	}
+        }
+    	// otherwise if no color was matched
+    	if(cardType.length() == 0) {
+    		cardType = "NOMATCH";
     	}
-    	else if(imagesMatch(capture,referenceTable.get("darkblue"))) {
-    		return("darkblue");
-    	}
-    	return("NO_MATCH");
+    	
+
+    	String cardBack = "";
+    	
+    	// CODE TO CHECK BACKGROUND
+    	
+    	cardBack = "blue";
     	
     	
     	
-    	//return (new Color(capture.getRGB(0,0))).toString();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+    	try {
+			ImageIO.write(capture, "png", new File("zMatched-" + cardType + "-" + cardBack + "-" + x + "-" + y + ".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	return cardType + "_" + cardBack;
 		
 		
 	}
@@ -101,14 +112,14 @@ public class CardReading {
 				System.out.println("Test " + testNum + " failed");
 			}
 			
+			if(testsPassed > 1) {
+				return true;
+			}
+			
 		}
 		
-		if(testsPassed > 2) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		// if loop is exited without enough tests passed, return false
+		return false;	
 		
 	}
 	
