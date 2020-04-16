@@ -40,7 +40,7 @@ public class Play implements Runnable
 
 
 
-    		for(int round = 1; round < 7; round++) {
+    		for(int round = 1; round < 3; round++) {
     			
     			System.out.println("Round " + round + " starting in 5 seconds: ");
     			Thread.sleep(5000);   			

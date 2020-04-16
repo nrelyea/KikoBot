@@ -11,6 +11,11 @@ public class Kiko {
 
 	public static void main(String[] args) throws AWTException, InterruptedException{
 		
+
+		
+		//boolean b = true;
+		//if(b) {return;}
+		
 		Scanner scan = new Scanner(System.in);  // Create a Scanner object
 
 		//System.out.println("HIT ENTER TO BEGIN");
