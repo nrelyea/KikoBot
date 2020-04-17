@@ -27,7 +27,7 @@ public class Play implements Runnable
 			Robot rob = new Robot();
 			
 			
-			Point[] levelDimensions = new Point[10];
+			Point[] levelDimensions = new Point[14];
 			levelDimensions[1] = new Point(2,2);
 			levelDimensions[2] = new Point(3,2);
 			levelDimensions[3] = new Point(3,3);
@@ -37,10 +37,16 @@ public class Play implements Runnable
 			levelDimensions[7] = new Point(5,5);
 			levelDimensions[8] = new Point(6,5);
 			levelDimensions[9] = new Point(6,6);
+			levelDimensions[10] = new Point(7,6);
+			levelDimensions[11] = new Point(7,7);
+			levelDimensions[12] = new Point(8,7);
+			levelDimensions[12] = new Point(8,8);
 
 
 
-    		for(int round = 1; round < 5; round++) {
+
+
+    		for(int round = 1; round < 14; round++) {
     			
     			System.out.println("Round " + round + " starting in 5 seconds: ");
     			Thread.sleep(5000);

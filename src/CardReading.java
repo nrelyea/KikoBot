@@ -22,13 +22,18 @@ public class CardReading {
 	
 	private void initCardReferences() {
 		try {
-			//BufferedImage yellowIMG = ImageIO.read(new File("strawberry.jpg"));
+			
 			referenceTable.put("yellow", ImageIO.read(new File("yellow.png")));
 			referenceTable.put("darkblue", ImageIO.read(new File("darkblue.png")));
 			referenceTable.put("lightblue", ImageIO.read(new File("lightblue.png")));
 			referenceTable.put("red", ImageIO.read(new File("red.png")));
 			referenceTable.put("green", ImageIO.read(new File("green.png")));
 			referenceTable.put("blue", ImageIO.read(new File("blue.png")));
+			referenceTable.put("pink", ImageIO.read(new File("pink.png")));			// SOMETIMES LIGHTBLUE DETECTED AS PINK
+			referenceTable.put("orange", ImageIO.read(new File("orange.png")));
+			referenceTable.put("white", ImageIO.read(new File("white.png")));
+			referenceTable.put("mixed", ImageIO.read(new File("mixed.png")));		// NOT REGISTERING WELL
+
 
 
 
@@ -63,12 +68,30 @@ public class CardReading {
     		cardType = "NOMATCH";
     	}
     	
+    	
 
-    	String cardBack = "";
+    	// background color references
+    	
+    	Color blue = new Color(0,102,204);
+    	Color red = new Color(255,0,0);
+    	Color yellow = new Color(255,255,0);
+
     	
     	// CODE TO CHECK BACKGROUND
+    	String cardBack = "";
     	
-    	cardBack = "blue";
+    	Color backColor = new Color(capture.getRGB(capture.getWidth() - 3,capture.getHeight() - 3));
+    	System.out.println("Background color: " + backColor.getRed() + "," + backColor.getGreen() + "," + backColor.getBlue());
+    	if(colorsSimilar(backColor,blue)) {
+        	cardBack = "blue";
+    	}
+    	else if(colorsSimilar(backColor,red)) {
+        	cardBack = "red";
+    	}
+    	else if(colorsSimilar(backColor,yellow)) {
+        	cardBack = "yellow";
+    	}
+    	
     	
     	
     	
